@@ -36,7 +36,13 @@ def form_upload():
     documents.insert_one(new_doc)
 
     # return name of file to check it was uploaded ok
-    return file.filename
+    return redirect(url_for('index'))
+
+
+@app.route('/submission/download_zip', methods=["GET"])
+def get_zip():
+    """Takes all files in database and return a downloadable ZIP folder."""
+    return "This is where your ZIP folder will be."
 
 
 if __name__ == '__main__':

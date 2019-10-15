@@ -1,0 +1,11 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Upload Your Files Below!</h1>
+    {# <!-- form field implemented using this tutorial: https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file --> #}
+    <form action="/submission/form_tracker" method="POST">
+        Select files: <input type="file" name="userFile" multiple><br><br>
+    </form>
+
+{% endblock %}

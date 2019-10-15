@@ -1,0 +1,13 @@
+<!-- templates/submission_new.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Upload Your Files Below!</h1>
+    {# <!-- form field implemented using this tutorial: https://www.tutorialspoint.com/flask/flask_file_uploading.htm --> #}
+    <form action="/submission/form_tracker/upload" method="POST" enctype="multipart/form-data">
+        Select files:
+        <input type="file" name="userFile" multiple/><br><br>
+        <input type="submit" value="Upload"/>
+    </form>
+
+{% endblock %}

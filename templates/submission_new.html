@@ -5,15 +5,22 @@
     <h1>Upload Your Files Below!</h1>
     {# <!-- form field implemented using this tutorial: https://www.tutorialspoint.com/flask/flask_file_uploading.htm --> #}
     <form action="{{ url_for('form_new') }}" method="POST" enctype="multipart/form-data">
+        {#<!--Uploads files-->#}
         Select files:
         <input type="file" name="userFile" multiple/><br><br>
         <input type="submit" value="Upload"/>
+
+        {#<!--Selects the requirement this document is for-->#}
+        <p>Enter the requirement this form is required for:
+        <select name="requirement">
+            {% for requirement in requirements %}
+                <option value="{{ requirement.name }}"> {{ requirement.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <form action="{{ url_for('show_requirements') }}">
+        <input type="submit" value="Back to Home"/>
     </form>
     <br><br>
-
-    <h4>Ready for your ZIP folder?</h4>
-    <form action="/submission/download_zip" method="GET">
-        <input type="submit"/>
-    </form>
 
 {% endblock %}

@@ -5,13 +5,23 @@
 <h1>Welcome to Compliance Tracker!</h1>
 <h2>We will help you keep track of the regulations you must meet to get your car approved.</h2>
 
+{#<!-- Upload a NEW document -->#}
+<form action="/submissions/form_tracker">
+    <button type="create">Upload my Forms NOW!</button>
+</form>
+
+{#<!-- User has option to see their ZIP -->#}
+<h4>Ready for your ZIP folder?</h4>
+<form action="/submission/download_zip" method="GET">
+    <input type="submit"/>
+</form>
 <ol>
 {# <!--list all requirements, with a file upload button--> #}
     {% for requirement in requirements %}
     <li>
         <h3>{{ requirement.name }}</h3>
-        <img src="{{ requirement.image }}"/>
         <h4>{{ requirement.description }}</h4>
+        <img src="{{ requirement.image }}"/>
 
     {% endfor %}
 

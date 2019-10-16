@@ -48,7 +48,8 @@ def show_requirements():
 @app.route('/submissions/form_tracker')
 def form_upload():
     """User uploads file here."""
-    return render_template("submission_new.html")
+    return render_template("submission_new.html",
+                           requirements=requirements)
 
 
 @app.route('/submission/form_tracker/upload', methods=["POST"])
@@ -69,7 +70,8 @@ def form_new():
         file.save(file)
 
         new_doc = {
-            "file_name": file.filename
+            "file_name": file.filename,
+            "requirement": request.form.get('requirement')
         }
 
         # insert into PyMongo database

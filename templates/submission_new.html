@@ -13,9 +13,7 @@
         <p>Enter the requirement this form is required for:
         <select name="requirement">
             {% for requirement in requirements %}
-                {% if requirement.status == "UNFULFILLED" %}
-                <option value="{{ requirement.name }}">{{ requirement.name }} [{{ requirement.status }}]</option>
-                {% endif %}
+                <option value="{{ requirement.name }}">{{ requirement.name }}</option>
             {% endfor %}
         </select><br><br>
         <input type="submit" value="Upload"/>

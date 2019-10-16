@@ -47,6 +47,7 @@ list_of_requirements = [
 # these statements only needed once
 # requirements.remove()
 # requirements.insert(list_of_requirements)  # adds requirements to DB
+# documents.remove()
 
 
 @app.route('/')
@@ -89,15 +90,14 @@ def form_new():
 
         # insert into PyMongo database
         doc_id = documents.insert_one(new_doc).inserted_id
-
-        requirement = requirements.find_one(new_doc["requirement"])
+        requirement = requirements.find_one({"name": new_doc["requirement"]})
+        list_of_docs = requirement["documents"]
+        list_of_docs.append(doc_id)
         # add the id of the new document to the
         # list of its corresponding requirement
-        requirements.updateOne({"name": new_doc["requirement"]},
-                               {"$set": {
-                                ""
-                                "documents":
-                                (requirement["documents"].append(ObjectId(new_doc)))}})
+        requirements.update_one({"name": new_doc["requirement"]},
+                                {"$set": {
+                                 "documents": list_of_docs}})
 
         # return name of file to check it was uploaded ok
         return redirect(url_for('form_upload'))

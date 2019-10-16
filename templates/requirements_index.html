@@ -23,16 +23,15 @@
         <h4>{{ requirement.description }}</h4>
         <div class="status">
             <div id="status_category">
-                <p>Current Status:</p>
             </div>
                 {#<!-- Show status in red in green based on value--> #}
-                {% if requirement.status == "UNFULFILLED" %}
-                    <div class="red_light">
-                        {{ requirement.status }}
-                    </div>
-                {% elif requirement.status == "FULFILLED" %}
+                {% if requirement.documents|length >= requirement.num_required %}
                     <div class="green_light">
-                        {{ requirement.status }}
+                        <p>Current Status: FULFILLED</p>
+                    </div>
+                {% else  %}
+                    <div class="red_light">
+                        <p>Current Status: UNFULFILLED</p>
                     </div>
                 {% endif %}
         </div>

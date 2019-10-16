@@ -26,21 +26,25 @@ requirements = [
      "description": "You must make sure the airbags are working.",
      "image": links[0],
      "num_required": 3,
+     "num_submitted": 2,
      "status": "UNFULFILLED"},
     {"name": "Regulation B",
      "description": "You better have seatbelts.",
      "image": links[1],
      "num_required": 3,
+     "num_submitted": 0,
      "status": "UNFULFILLED"},
     {"name": "Regulation C",
      "description": "Don't forget forget about my cupholders!",
      "image": links[2],
      "num_required": 3,
+     "num_submitted": 0,
      "status": "UNFULFILLED"},
     {"name": "Regulation D",
      "description": "Make sure that self-driving algorithm values human life!",
      "image": links[3],
      "num_required": 3,
+     "num_submitted": 0,
      "status": "UNFULFILLED"}
 ]
 
@@ -59,6 +63,22 @@ def form_upload():
     """User uploads file here."""
     return render_template("submission_new.html",
                            requirements=requirements)
+
+
+def change_status(requirement_name):
+    """Adjust status of requirement, based on number of documents.
+        Param: requiremen_name(str): name of the requirement a document
+               has been submitted for
+    """
+    # figure out which requirement the document is for
+    requirement = dict()
+    for requirement in requirements:
+        if requirement["name"] == requirement_name:
+            requirement = requirement
+    # make chnages to fields because of the new document
+    requirement["num_submitted"] += 1
+    if requirement["num_submitted"] == requirement["num_required"]:
+        requirement["status"] = "FULFILLED"
 
 
 @app.route('/submission/form_tracker/upload', methods=["POST"])
@@ -85,6 +105,9 @@ def form_new():
 
         # insert into PyMongo database
         documents.insert_one(new_doc)
+
+        # change status of requirement as needed
+        change_status(new_doc["requirement"])
 
         # return name of file to check it was uploaded ok
         return redirect(url_for('form_upload'))

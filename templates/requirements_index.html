@@ -22,15 +22,17 @@
         <h3>{{ requirement.name }}</h3>
         <h4>{{ requirement.description }}</h4>
         <div class="status">
-            <p>Current Status:</p>
+            <div id="status_category">
+                <p>Current Status:</p>
+            </div>
                 {#<!-- Show status in red in green based on value--> #}
                 {% if requirement.status == "UNFULFILLED" %}
-                    <div id="red_light">
-                        <p>{{ requirement.status }}</p>
+                    <div class="red_light">
+                        {{ requirement.status }}
                     </div>
                 {% elif requirement.status == "FULFILLED" %}
-                    <div id="green_light">
-                        <p>{{ requirement.status }}</p>
+                    <div class="green_light">
+                        {{ requirement.status }}
                     </div>
                 {% endif %}
         </div>

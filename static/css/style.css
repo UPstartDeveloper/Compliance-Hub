@@ -6,3 +6,21 @@ img {
     height: 500px;
     width: 750px;
 }
+
+.red_light {
+    color: red;
+    / * float: right */
+}
+
+.green_light {
+    color: green;
+    /* float: right; */
+}
+
+.status {
+    /* overflow: hidden; */
+}
+
+#status_category {
+    /* float: left; */
+}

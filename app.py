@@ -48,9 +48,9 @@ list_of_requirements = [
      "documents": list(),
      "num_submitted": 0}
 ]
-# these statements only needed once
-# requirements.remove()
-# requirements.insert(list_of_requirements)  # adds requirements to DB
+
+requirements.remove()
+requirements.insert(list_of_requirements)  # adds requirements to DB
 # documents.remove()
 
 
@@ -104,8 +104,9 @@ def form_new():
                                 {"$set": {
                                  "documents": list_of_docs,
                                  "num_submitted": new_num}})
-        # return name of file to check it was uploaded ok
-        return redirect(url_for('form_upload'))
+        # redirect to the requirement page for which document was submitted
+        return redirect(url_for('requirement_show',
+                        requirement_id=requirement.get('_id')))
 
 
 @app.route('/submission/<requirement_id>')

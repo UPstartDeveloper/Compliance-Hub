@@ -4,20 +4,16 @@
 {% block content %}
 <h3>{{ requirement.name }}</h3>
 <h4>{{ requirement.description }}</h4>
-<div class="status">
-    <div id="status_category">
-    </div>
-        <!-- Show status in red in green based on value-->
-        {% if requirement.num_submitted >= requirement.num_required %}
-            <div class="green_light">
-                <p>Current Status: FULFILLED</p>
-            </div>
-        {% else  %}
-            <div class="red_light">
-                <p>Current Status: UNFULFILLED</p>
-            </div>
-        {% endif %}
-</div>
+    <!-- Show status in red in green based on value-->
+    {% if requirement.num_submitted >= requirement.num_required %}
+        <div class="green_light">
+            <p>Current Status: FULFILLED</p>
+        </div>
+    {% else  %}
+        <div class="red_light">
+            <p>Current Status: UNFULFILLED</p>
+        </div>
+    {% endif %}
 <p>Required No. of Forms: {{ requirement.num_required }}</p>
 <img src="{{ requirement.image }}"/>
 <!-- LIST all DOCUMENTS RELATED to this REQUIREMENT-->

@@ -24,3 +24,7 @@ img {
 #status_category {
     /* float: left; */
 }
+
+.show-page-buttons {
+    display: inline;
+}

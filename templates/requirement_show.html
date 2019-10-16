@@ -27,6 +27,15 @@
         {% if document.requirement == requirement.name %}
             <li>{{ document.file_name }}</li>
         {% endif %}
-    {% endfor %}
-
+    {% endfor %}<br>
+<div class="show-page-buttons">
+    <!-- Upload a NEW document -->
+        <form action="/submissions/form_tracker">
+            <input type="submit" value="Upload Forms"/>
+        </form><br>
+    <!-- Link back to REQUIREMENTS_INDEX (show all)-->
+        <form action="{{ url_for('show_requirements') }}">
+            <input type="submit" value="Back to Home"/>
+        </form>
+</div>
 {% endblock %}

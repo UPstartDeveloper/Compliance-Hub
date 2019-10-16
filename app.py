@@ -112,7 +112,9 @@ def form_new():
 def requirement_show(requirement_id):
     """Show a single requirement and documents submitted for it."""
     requirement = requirements.find_one({'_id': ObjectId(requirement_id)})
-    return render_template("requirement_show.html", requirement=requirement)
+    return render_template("requirement_show.html",
+                           requirement=requirement,
+                           documents=documents.find())
 
 
 @app.route('/submission/download_zip')

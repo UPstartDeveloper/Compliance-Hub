@@ -25,7 +25,7 @@
             <div id="status_category">
             </div>
                 {#<!-- Show status in red in green based on value--> #}
-                {% if requirement.documents|length >= requirement.num_required %}
+                {% if requirement.num_submitted >= requirement.num_required %}
                     <div class="green_light">
                         <p>Current Status: FULFILLED</p>
                     </div>

@@ -27,27 +27,31 @@ list_of_requirements = [
      "description": "You must make sure the airbags are working.",
      "image": links[0],
      "num_required": 3,
-     "documents": list()},
+     "documents": list(),
+     "num_submitted": 0},
     {"name": "Regulation B",
      "description": "You better have seatbelts.",
      "image": links[1],
      "num_required": 3,
-     "documents": list()},
+     "documents": list(),
+     "num_submitted": 0},
     {"name": "Regulation C",
      "description": "Don't forget forget about my cupholders!",
      "image": links[2],
      "num_required": 3,
-     "documents": list()},
+     "documents": list(),
+     "num_submitted": 0},
     {"name": "Regulation D",
      "description": "Make sure that self-driving algorithm values human life!",
      "image": links[3],
      "num_required": 3,
-     "documents": list()}
+     "documents": list(),
+     "num_submitted": 0}
 ]
 # these statements only needed once
-# requirements.remove()
-# requirements.insert(list_of_requirements)  # adds requirements to DB
-# documents.remove()
+requirements.remove()
+requirements.insert(list_of_requirements)  # adds requirements to DB
+documents.remove()
 
 
 @app.route('/')
@@ -90,15 +94,16 @@ def form_new():
 
         # insert into PyMongo database
         doc_id = documents.insert_one(new_doc).inserted_id
+        # add the id of the new document to the
+        # list of its corresponding requirement, and increment num_submitted
         requirement = requirements.find_one({"name": new_doc["requirement"]})
         list_of_docs = requirement["documents"]
         list_of_docs.append(doc_id)
-        # add the id of the new document to the
-        # list of its corresponding requirement
+        new_num = requirement["num_submitted"] + 1
         requirements.update_one({"name": new_doc["requirement"]},
                                 {"$set": {
-                                 "documents": list_of_docs}})
-
+                                 "documents": list_of_docs,
+                                 "num_submitted": new_num}})
         # return name of file to check it was uploaded ok
         return redirect(url_for('form_upload'))
 

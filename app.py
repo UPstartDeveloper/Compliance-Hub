@@ -13,47 +13,47 @@ host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Compliance')
 client = MongoClient()
 db = client.Compliance
 documents = db.documents
+requirements = db.requirements
 
-# MOCK array of requirements to fill out, and image links to represent each
+# array of requirements to fill out, and image links to represent each
 links = [
     "https://accidentattorneys.org/wp-content/uploads/2015/03/13080769_l.jpg",
     "https://www.myairbags.com/wp-content/uploads/2018/07/red.jpg",
     "http://img1.photo138.com/MS1/ZJ6396700-C-4-9.jpg",
     "https://cdn-images-1.medium.com/max/1200/1*Ef6QU6hyuyvvqVfl87a1qw.png"
 ]
-requirements = [
+list_of_requirements = [
     {"name": "Regulation A",
      "description": "You must make sure the airbags are working.",
      "image": links[0],
      "num_required": 3,
-     "num_submitted": 2,
-     "status": "UNFULFILLED"},
+     "documents": list()},
     {"name": "Regulation B",
      "description": "You better have seatbelts.",
      "image": links[1],
      "num_required": 3,
-     "num_submitted": 0,
-     "status": "UNFULFILLED"},
+     "documents": list()},
     {"name": "Regulation C",
      "description": "Don't forget forget about my cupholders!",
      "image": links[2],
      "num_required": 3,
-     "num_submitted": 0,
-     "status": "UNFULFILLED"},
+     "documents": list()},
     {"name": "Regulation D",
      "description": "Make sure that self-driving algorithm values human life!",
      "image": links[3],
      "num_required": 3,
-     "num_submitted": 0,
-     "status": "UNFULFILLED"}
+     "documents": list()}
 ]
+# these statements only needed once
+# requirements.remove()
+# requirements.insert(list_of_requirements)  # adds requirements to DB
 
 
 @app.route('/')
 def show_requirements():
     """Show user all the requireements that need to be completed."""
     return render_template("requirements_index.html",
-                           requirements=requirements,
+                           requirements=requirements.find(),
                            links=links,
                            documents=documents.find())
 
@@ -62,23 +62,7 @@ def show_requirements():
 def form_upload():
     """User uploads file here."""
     return render_template("submission_new.html",
-                           requirements=requirements)
-
-
-def change_status(requirement_name):
-    """Adjust status of requirement, based on number of documents.
-        Param: requiremen_name(str): name of the requirement a document
-               has been submitted for
-    """
-    # figure out which requirement the document is for
-    requirement = dict()
-    for requirement in requirements:
-        if requirement["name"] == requirement_name:
-            requirement = requirement
-    # make chnages to fields because of the new document
-    requirement["num_submitted"] += 1
-    if requirement["num_submitted"] == requirement["num_required"]:
-        requirement["status"] = "FULFILLED"
+                           requirements=requirements.find())
 
 
 @app.route('/submission/form_tracker/upload', methods=["POST"])
@@ -104,10 +88,16 @@ def form_new():
         }
 
         # insert into PyMongo database
-        documents.insert_one(new_doc)
+        doc_id = documents.insert_one(new_doc).inserted_id
 
-        # change status of requirement as needed
-        change_status(new_doc["requirement"])
+        requirement = requirements.find_one(new_doc["requirement"])
+        # add the id of the new document to the
+        # list of its corresponding requirement
+        requirements.updateOne({"name": new_doc["requirement"]},
+                               {"$set": {
+                                ""
+                                "documents":
+                                (requirement["documents"].append(ObjectId(new_doc)))}})
 
         # return name of file to check it was uploaded ok
         return redirect(url_for('form_upload'))

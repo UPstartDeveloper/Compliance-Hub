@@ -40,7 +40,9 @@ requirements = [
 @app.route('/')
 def show_requirements():
     """Show user all the requireements that need to be completed."""
-    return render_template("requirements_index.html")
+    return render_template("requirements_index.html",
+                           requirements=requirements,
+                           links=links)
 
 
 @app.route('/submissions/form_tracker')

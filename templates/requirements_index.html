@@ -1,0 +1,19 @@
+<!-- templates/requirements_index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to Compliance Tracker!</h1>
+<h2>We will help you keep track of the regulations you must meet to get your car approved.</h2>
+
+<ol>
+{# <!--list all requirements, with a file upload button--> #}
+    {% for requirement in requirements %}
+    <li>
+        <h3>{{ requirement.name }}</h3>
+        <img src="{{ requirement.image }}"/>
+        <h4>{{ requirement.description }}</h4>
+
+    {% endfor %}
+
+
+{% endblock %}

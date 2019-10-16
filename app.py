@@ -49,9 +49,9 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 # these statements only needed once
-requirements.remove()
-requirements.insert(list_of_requirements)  # adds requirements to DB
-documents.remove()
+# requirements.remove()
+# requirements.insert(list_of_requirements)  # adds requirements to DB
+# documents.remove()
 
 
 @app.route('/')
@@ -106,6 +106,12 @@ def form_new():
                                  "num_submitted": new_num}})
         # return name of file to check it was uploaded ok
         return redirect(url_for('form_upload'))
+
+
+@app.route('/submission/<requirement_id>')
+def requirement_show(requirement_id):
+    """Show a single requirement and documents submitted for it."""
+    return f'My ID is {requirement_id}.'
 
 
 @app.route('/submission/download_zip')

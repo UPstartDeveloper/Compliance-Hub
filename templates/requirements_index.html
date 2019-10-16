@@ -5,18 +5,18 @@
 <h1>Welcome to Compliance Tracker!</h1>
 <h2>We will help you keep track of the regulations you must meet to get your car approved.</h2>
 
-{#<!-- Upload a NEW document -->#}
+<!-- Upload a NEW document -->
 <form action="/submissions/form_tracker">
     <button type="create">Upload my Forms NOW!</button>
 </form>
 
-{#<!-- User has option to see their ZIP -->#}
+<!-- User has option to see their ZIP -->
 <h4>Ready for your ZIP folder?</h4>
 <form action="/submission/download_zip" method="GET">
     <input type="submit"/>
 </form>
 <ol>
-{# <!--list all requirements, with a file upload button--> #}
+<!--list all requirements, with a file upload button-->
     {% for requirement in requirements %}
     <li>
         <h3>{{ requirement.name }}</h3>
@@ -24,7 +24,7 @@
         <div class="status">
             <div id="status_category">
             </div>
-                {#<!-- Show status in red in green based on value--> #}
+                <!-- Show status in red in green based on value-->
                 {% if requirement.num_submitted >= requirement.num_required %}
                     <div class="green_light">
                         <p>Current Status: FULFILLED</p>
@@ -37,7 +37,7 @@
         </div>
         <p>Required No. of Forms: {{ requirement.num_required }}</p>
         <img src="{{ requirement.image }}"/>
-        {#<!-- LIST all DOCUMENTS RELATED to this REQUIREMENT--> #}
+        <!-- LIST all DOCUMENTS RELATED to this REQUIREMENT-->
         <p>Here are the Documents We Have From You So Far:</p>
         <ol>
             {% for document in documents %}
@@ -46,7 +46,10 @@
                 {% endif %}
             {% endfor %}
         </ol>
-
+        <!--LINK to see one REQUIREMENT-->
+        <form action="/submission/{{ requirement._id }}">
+            <input type="submit" value="More Options"/>
+        </form>
         <br><br>
 
     {% endfor %}

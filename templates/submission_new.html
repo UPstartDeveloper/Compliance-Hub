@@ -7,16 +7,18 @@
     <form action="{{ url_for('form_new') }}" method="POST" enctype="multipart/form-data">
         {#<!--Uploads files-->#}
         Select files:
-        <input type="file" name="userFile" multiple/><br><br>
-        <input type="submit" value="Upload"/>
+        <input type="file" name="userFile" multiple/><br>
 
         {#<!--Selects the requirement this document is for-->#}
         <p>Enter the requirement this form is required for:
         <select name="requirement">
             {% for requirement in requirements %}
-                <option value="{{ requirement.name }}"> {{ requirement.name }}</option>
+                {% if requirement.status == "UNFULFILLED" %}
+                <option value="{{ requirement.name }}">{{ requirement.name }} [{{ requirement.status }}]</option>
+                {% endif %}
             {% endfor %}
-        </select>
+        </select><br><br>
+        <input type="submit" value="Upload"/>
     </form>
     <form action="{{ url_for('show_requirements') }}">
         <input type="submit" value="Back to Home"/>

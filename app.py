@@ -24,16 +24,24 @@ links = [
 requirements = [
     {"name": "Regulation A",
      "description": "You must make sure the airbags are working.",
-     "image": links[0]},
+     "image": links[0],
+     "num_required": 3,
+     "status": "UNFULFILLED"},
     {"name": "Regulation B",
      "description": "You better have seatbelts.",
-     "image": links[1]},
+     "image": links[1],
+     "num_required": 3,
+     "status": "UNFULFILLED"},
     {"name": "Regulation C",
      "description": "Don't forget forget about my cupholders!",
-     "image": links[2]},
+     "image": links[2],
+     "num_required": 3,
+     "status": "UNFULFILLED"},
     {"name": "Regulation D",
      "description": "Make sure that self-driving algorithm values human life!",
-     "image": links[3]}
+     "image": links[3],
+     "num_required": 3,
+     "status": "UNFULFILLED"}
 ]
 
 
@@ -42,7 +50,8 @@ def show_requirements():
     """Show user all the requireements that need to be completed."""
     return render_template("requirements_index.html",
                            requirements=requirements,
-                           links=links)
+                           links=links,
+                           documents=documents.find())
 
 
 @app.route('/submissions/form_tracker')

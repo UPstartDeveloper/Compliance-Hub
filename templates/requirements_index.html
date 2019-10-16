@@ -21,7 +21,32 @@
     <li>
         <h3>{{ requirement.name }}</h3>
         <h4>{{ requirement.description }}</h4>
+        <div class="status">
+            <p>Current Status:</p>
+                {#<!-- Show status in red in green based on value--> #}
+                {% if requirement.status == "UNFULFILLED" %}
+                    <div id="red_light">
+                        <p>{{ requirement.status }}</p>
+                    </div>
+                {% elif requirement.status == "FULFILLED" %}
+                    <div id="green_light">
+                        <p>{{ requirement.status }}</p>
+                    </div>
+                {% endif %}
+        </div>
+        <p>Required No. of Forms: {{ requirement.num_required }}</p>
         <img src="{{ requirement.image }}"/>
+        {#<!-- LIST all DOCUMENTS RELATED to this REQUIREMENT--> #}
+        <p>Here are the Documents We Have From You So Far:</p>
+        <ol>
+            {% for document in documents %}
+                {% if document.requirement == requirement.name %}
+                    <li>{{ document.file_name }}
+                {% endif %}
+            {% endfor %}
+        </ol>
+
+        <br><br>
 
     {% endfor %}
 

@@ -3,23 +3,19 @@
 
 {% block content %}
 <h1>Change Your Files Here!</h1>
-<!-- form field implemented using this tutorial: https://www.tutorialspoint.com/flask/flask_file_uploading.htm -->
 <!-- links to the page of the requirement this submission is for -->
-<form action="/submissions/{{ requirement._id }}" method="POST" enctype="multipart/form-data">
-    <!--Selects the requirement this document is replacing -->
+<form action="/submissions/{{ document._id }}/upload">
+    <!--Selects the document this document is replacing -->
     <p>Select the name of the document you are replacing:
     <select name="document">
         {% for document in documents %}
             {% if document.requirement == requirement.name %}
-                <option value="{{ document.requirement }}">{{ document.file_name }}</option>
+                <option value="{{ document._id }}">{{ document.file_name }}</option>
             {% endif %}
         {% endfor %}
     </select><br><br>
-    <!--Uploads files-->
-    Select files:
-    <input type="file" name="userFile" multiple/><br><br>
 
-    <input type="submit" value="Re-upload"/>
+    <input type="submit" value="Re-upload My Files"/>
 </form>
 <!-- Link back to REQUIREMENTS_INDEX (show one)-->
 <form action="{{ url_for('show_requirements') }}">

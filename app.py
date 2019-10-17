@@ -161,12 +161,13 @@ def submission_update():
 @app.route("/submissions/<document_id>", methods=["POST"])
 def document_edit(document_id):
     """Update submitted document with new uploaded file."""
+    document = documents.find_one({"_id": ObjectId(document_id)})
     # create an updated document
     file = request.files["userFile"]
     file.save(file)
     updated_doc = {
         "file_name": file.filename,
-        "requirement": requirement["name"]
+        "requirement": document["requirement"]
     }
 
     # update the documents database

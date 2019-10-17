@@ -140,20 +140,6 @@ def submission_update():
     document_id = request.args.get("document")
     document = documents.find_one({"_id": ObjectId(document_id)})
     requirement = requirements.find_one({"name": document.get("requirement")})
-    '''
-    # create an updated document
-    file = request.files['userFile']
-    file.save(file)
-    # update the documents database
-    documents.update_one(
-        {'_id': ObjectId(document_id)},
-        {"$set": {"file_name": file.filename}})
-    '''
-    '''
-    # redirect to the requirement's own show page
-    return redirect(url_for("requirement_show",
-                            requirement_id=requirement.get("_id")))
-    '''
     return render_template("document_edit.html",
                            document=document)
 
@@ -182,6 +168,20 @@ def document_edit(document_id):
     # redirect to the requirement's own show page
     return redirect(url_for("requirement_show",
                             requirement_id=requirement.get("_id")))
+
+
+@app.route('/submissions/<requirement_id>/delete_all', methods=["POST"])
+def submissions_delete(requirement_id):
+    """Delete all documents under a requirement."""
+    requirement = requirements.find_one({"_id": ObjectId(requirement_id)})
+    documents_to_delete = documents.find({
+                                    "requirement": requirement.get("name")})
+    for document in documents_to_delete:
+        documents.delete_one(document)
+
+    # redirect back to requirement's own page
+    return redirect(url_for("requirement_show",
+                            requirement_id=requirement_id))
 
 
 @app.route('/submission/download_zip')

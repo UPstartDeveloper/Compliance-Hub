@@ -154,9 +154,8 @@ def submission_update():
     return redirect(url_for("requirement_show",
                             requirement_id=requirement.get("_id")))
     '''
-    return redirect(url_for("document_edit",
-                            document_id=document.get('_id'),
-                            requirement=requirement))
+    return render_template("document_edit.html",
+                           document=document)
 
 
 @app.route("/submissions/<document_id>", methods=["POST"])

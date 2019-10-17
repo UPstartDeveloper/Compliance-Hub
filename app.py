@@ -163,7 +163,7 @@ def submission_update():
 def document_edit(document_id):
     """Update submitted document with new uploaded file."""
     # create an updated document
-    file = request.files['userFile']
+    file = request.files["userFile"]
     file.save(file)
     updated_doc = {
         "file_name": file.filename,

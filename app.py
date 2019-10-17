@@ -49,8 +49,8 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 
-requirements.remove()
-requirements.insert(list_of_requirements)  # adds requirements to DB
+# requirements.remove()
+# requirements.insert(list_of_requirements)  # adds requirements to DB
 # documents.remove()
 
 
@@ -109,7 +109,7 @@ def form_new():
                         requirement_id=requirement.get('_id')))
 
 
-@app.route('/submission/<requirement_id>')
+@app.route('/submissions/<requirement_id>')
 def requirement_show(requirement_id):
     """Show a single requirement and documents submitted for it."""
     requirement = requirements.find_one({'_id': ObjectId(requirement_id)})
@@ -118,10 +118,41 @@ def requirement_show(requirement_id):
                            documents=documents.find())
 
 
+@app.route("/submissions/<requirement_id>/edit")
+def requirement_edit(requirement_id):
+    """Show the edit form for a requirement's documents."""
+    requirement = requirements.find_one({"_id": ObjectId(requirement_id)})
+    return render_template("submission_edit.html",
+                           requirement=requirement,
+                           documents=documents.find())
+
+
+@app.route("/submissions/<document_id>", methods=["POST"])
+def submission_update(requirement_id, document_id):
+    """Update the appropiate submission using the newly uploaded document."""
+    # find out which requirement this submission goes under
+    document = documents.find_one({"_id": ObjectId(document_id)})
+    requirement = requirements.find_one({"name": document.get("requirement")})
+    # create an updated document
+    file = request.files['userFile']
+    file.save(file)
+    updated_doc = {
+        "file_name": file.filename,
+        "requirement": requirement["name"]
+    }
+    # update the documents database
+    documents.update_one(
+        {'_id': ObjectId(document_id)},
+        {"$set": updated_doc})
+    return redirect(url_for('requirement_show',
+                    requirement_id=requirement.get('_id')))
+
+
 @app.route('/submission/download_zip')
 def get_zip():
     """Takes all files in database and return a downloadable ZIP folder.
-    V1: this is first iteration, just serving file back to user using POST"""
+       V1: this is first iteration, just serving file back to user
+    """
     return render_template("submission_complete.html")
 
 

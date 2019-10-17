@@ -112,6 +112,7 @@ def form_new():
 @app.route('/submissions/<requirement_id>')
 def requirement_show(requirement_id):
     """Show a single requirement and documents submitted for it."""
+    # document = documents.find_one({"_id": ObjectId(document_id)})
     requirement = requirements.find_one({'_id': ObjectId(requirement_id)})
     return render_template("requirement_show.html",
                            requirement=requirement,
@@ -120,21 +121,42 @@ def requirement_show(requirement_id):
 
 @app.route("/submissions/<requirement_id>/edit")
 def requirement_edit(requirement_id):
-    """Show the edit form for a requirement's documents."""
+    """Show the edit form for documents listed under a requirement."""
     requirement = requirements.find_one({"_id": ObjectId(requirement_id)})
+    documents_to_change = documents.find({"requirement":
+                                         requirement.get("name")})
+    # url_to_edit_doc = lookup_url('submission_update')
     return render_template("submission_edit.html",
+                           documents=documents_to_change,
                            requirement=requirement,
-                           documents=documents.find())
+                           requirement_id=requirement_id)
 
 
-@app.route("/submissions/<document_id>/upload")
-def submission_update(document_id):
-    """Pass requirement information along to document resubmission form."""
+@app.route("/submissions/edit?")
+def submission_update():
+    """Redirect to a form to upload a new file,
+       for the document user selected to change."""
     # find out which requirement this submission goes under
+    document_id = request.args.get("document")
     document = documents.find_one({"_id": ObjectId(document_id)})
-    # requirement = requirements.find_one({"_id": .ObjectId(requirement_id)})
+    requirement = requirements.find_one({"name": document.get("requirement")})
+    '''
+    # create an updated document
+    file = request.files['userFile']
+    file.save(file)
+    # update the documents database
+    documents.update_one(
+        {'_id': ObjectId(document_id)},
+        {"$set": {"file_name": file.filename}})
+    '''
+    '''
+    # redirect to the requirement's own show page
+    return redirect(url_for("requirement_show",
+                            requirement_id=requirement.get("_id")))
+    '''
     return redirect(url_for("document_edit",
-                            document_id=document_id))
+                            document_id=document.get('_id'),
+                            requirement=requirement))
 
 
 @app.route("/submissions/<document_id>", methods=["POST"])
@@ -143,12 +165,11 @@ def document_edit(document_id):
     # create an updated document
     file = request.files['userFile']
     file.save(file)
-    '''
     updated_doc = {
         "file_name": file.filename,
         "requirement": requirement["name"]
     }
-    '''
+
     # update the documents database
     documents.update_one(
         {'_id': ObjectId(document_id)},
@@ -156,7 +177,7 @@ def document_edit(document_id):
 
     # use the document to find the related requirement to redirect back to
     document = documents.find_one({"_id": ObjectId(document_id)})
-    requirement = requirements.find_one({"name": document["regulation"]})
+    requirement = requirements.find_one({"name": document.get("requirement")})
 
     # redirect to the requirement's own show page
     return redirect(url_for("requirement_show",

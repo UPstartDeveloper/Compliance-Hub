@@ -27,10 +27,19 @@
 <div class="show-page-buttons">
     <!-- Upload a NEW document -->
         <form action="/submissions/form_tracker">
-            <input type="submit" value="Upload Forms"/>
+            <input type="submit" value="Upload More Forms"/>
         </form><br>
     <!-- EDIT documents for this requirement -->
         <form action="/submissions/{{ requirement._id }}/edit">
+            {# <!--<!--Selects the document this document is replacing
+            <p>Want to change a form? Select the name of the document you are replacing:</p>
+            <select name="document">
+                {% for document in documents %}
+                    {% if document.requirement == requirement.name %}
+                        <option value="{{ document._id }}">{{ document.file_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br><br>-->#}
             <input type="submit" value="Replace Forms">
         </form><br>
     <!-- Link back to REQUIREMENTS_INDEX (show all)-->

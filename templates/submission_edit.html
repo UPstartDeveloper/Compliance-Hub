@@ -4,20 +4,29 @@
 {% block content %}
 <h1>Change Your Files Here!</h1>
 <!-- links to the page of the requirement this submission is for -->
-<form action="/submissions/{{ document._id }}/upload">
-    <!--Selects the document this document is replacing -->
-    <p>Select the name of the document you are replacing:
-    <select name="document">
-        {% for document in documents %}
-            {% if document.requirement == requirement.name %}
-                <option value="{{ document._id }}">{{ document.file_name }}</option>
-            {% endif %}
-        {% endfor %}
-    </select><br><br>
+<!-- EDIT documents for this requirement -->
+    <form action="{{ url_for('submission_update') }}" method="POST">
+        <!--Selects the document this document is replacing-->
+        <p>Want to change a form? Enter the name of the document you are replacing:</p>
+        <select name="document" id="document">
+            {% for document in documents %}
+                {% if document.requirement == requirement.name %}
+                    <option value="{{ document._id }}">{{ document.file_name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br><br>
+        <input type="submit" value="Replace Forms">
+    </form><br>
+{#<!--
+<form action="/submissions/{{ document.id }}/upload">
+    <!-- form field implemented using this tutorial: https://www.tutorialspoint.com/flask/flask_file_uploading.htm
+    Select files:
+    <input type="file" name="userFile" multiple/><br><br>
 
     <input type="submit" value="Re-upload My Files"/>
-</form>
-<!-- Link back to REQUIREMENTS_INDEX (show one)-->
+</form>-->#}
+
+<!-- Link back to REQUIREMENTS_INDEX (show all)-->
 <form action="{{ url_for('show_requirements') }}">
     <input type="submit" value="Back to Home"/>
 </form>

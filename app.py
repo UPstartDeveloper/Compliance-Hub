@@ -14,7 +14,7 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
-documents.delete_many({})
+requirements.delete_many({})
 
 
 @app.route('/')
@@ -35,7 +35,6 @@ def form_upload():
 @app.route('/submission/form_tracker/upload', methods=["POST"])
 def form_new():
     """Add the uploaded file to the database."""
-
     if 'userFile' in request.files:
         # Make a new document JSON from form data
         file = request.files['userFile']
@@ -60,8 +59,8 @@ def form_new():
                                  "documents": list_of_docs,
                                  "num_submitted": new_num}})
         # redirect to the requirement page for which document was submitted
-        return redirect(url_for('requirement_show',
-                        requirement_id=requirement.get('_id')))
+    return redirect(url_for('requirement_show',
+                    requirement_id=requirement.get('_id')))
 
 
 @app.route('/submissions/<requirement_id>')

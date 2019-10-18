@@ -47,15 +47,15 @@ list_of_requirements = [
      "documents": list(),
      "num_submitted": 0}
 ]
+# remove unneccesary requirements
+requirements.delete_many({})
+# adds requirements to DB
+requirements.insert_many(list_of_requirements)
 
 
 @app.route('/')
 def show_requirements():
     """Show user all the requireements that need to be completed."""
-    # remove unneccesary requirements
-    requirements.delete_many({})
-    # adds requirements to DB
-    requirements.insert_many(list_of_requirements)
     return render_template("requirements_index.html",
                            requirements=requirements.find(),
                            documents=documents.find())

@@ -4,17 +4,16 @@
 {% block content %}
 <h1>Choose Which Forms You Would Like to Delete</h1>
 <!-- user chooses documents to delete -->
-<form action="{{ url_for('delete_submissions') }}" method="POST">
     {% if documents.count() == 0 %}
         <p>There are no documents to display.</p>
     {% else %}
-        {% for document in documents %}
-            <input name="document" type="checkbox" value="{{ document._id }}">{{ document.file_name }}<br><br>
-        {% endfor %}
+        <form action="{{ url_for('delete_submissions') }}" method="POST">
+                {% for document in documents %}
+                    <input name="document" type="checkbox" value="{{ document._id }}">{{ document.file_name }}<br><br>
+                {% endfor %}
+            <input type="submit" value="Delete These Forms">
+        </form><br>
     {% endif %}
-
-    <input type="submit" value="Delete These Forms">
-</form><br>
 
 <!-- Link back to REQUIREMENTS_INDEX (show all)-->
 <form action="{{ url_for('show_requirements') }}">

@@ -19,8 +19,7 @@ requirements = db.requirements
 def show_requirements():
     """Show user all the requireements that need to be completed."""
     return render_template("requirements_index.html",
-                           requirements=requirements.find(),
-                           documents=documents.find())
+                           requirements=requirements.find())
 
 
 @app.route('/submissions/form_tracker')

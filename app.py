@@ -14,46 +14,6 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
-# array of requirements to fill out, and image links to represent each
-links = [
-    "https://accidentattorneys.org/wp-content/uploads/2015/03/13080769_l.jpg",
-    "https://www.myairbags.com/wp-content/uploads/2018/07/red.jpg",
-    "http://img1.photo138.com/MS1/ZJ6396700-C-4-9.jpg",
-    "https://cdn-images-1.medium.com/max/1200/1*Ef6QU6hyuyvvqVfl87a1qw.png"
-]
-list_of_requirements = [
-    {"name": "Regulation A",
-     "description": "You must make sure the airbags are working.",
-     "image": links[0],
-     "num_required": 3,
-     "documents": list(),
-     "num_submitted": 0},
-    {"name": "Regulation B",
-     "description": "You better have seatbelts.",
-     "image": links[1],
-     "num_required": 3,
-     "documents": list(),
-     "num_submitted": 0},
-    {"name": "Regulation C",
-     "description": "Don't forget forget about my cupholders!",
-     "image": links[2],
-     "num_required": 3,
-     "documents": list(),
-     "num_submitted": 0},
-    {"name": "Regulation D",
-     "description": "Make sure that self-driving algorithm values human life!",
-     "image": links[3],
-     "num_required": 3,
-     "documents": list(),
-     "num_submitted": 0}
-]
-# remove unneccesary requirements
-# requirements.delete_many({})
-# adds requirements to DB
-# requirements.insert_many(list_of_requirements)
-# requirements.delete_many({})
-# requirements.insert(list_of_requirements)
-
 
 @app.route('/')
 def show_requirements():

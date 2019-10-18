@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 # Tell Flask how to find our database
 host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Compliance')
-client = MongoClient()
-db = client.Compliance
+client = MongoClient(host=f"{host}?retryWrites=false")
+db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
@@ -171,4 +171,4 @@ def get_zip():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', post=os.environ.get('POST', 50000))

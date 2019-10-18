@@ -26,7 +26,8 @@ def show_requirements():
 def form_upload():
     """User uploads file here."""
     return render_template("submission_new.html",
-                           requirements=requirements.find())
+                           requirements=requirements.find(),
+                           documents=documents.find())
 
 
 @app.route('/submission/form_tracker/upload', methods=["POST"])

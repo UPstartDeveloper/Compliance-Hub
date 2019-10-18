@@ -48,9 +48,12 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 # remove unneccesary requirements
-requirements.remove()
+requirements.delete_many({})
 # adds requirements to DB
 requirements.insert_many(list_of_requirements)
+
+# remove unneccesary requirements
+requirements.delete_many({})
 
 
 @app.route('/')

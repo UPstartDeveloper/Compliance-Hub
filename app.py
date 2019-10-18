@@ -149,9 +149,11 @@ def delete_submissions():
     # delete the documents one-by-one
     for document in docs_to_delete:
         documents.delete_one(document)
+        # adjust number of num_submitted under related requirement
+        new_num = requirement["num_submitted"] - 1
         requirements.update_one(requirement,
-                                {"$set": {"num_submitted":
-                                          requirement["num_submitted"] -= 1}})
+                                {"$set":
+                                 {"num_submitted": new_num}})
 
     return redirect(url_for("requirement_show",
                             requirement_id=requirement.get('_id')))

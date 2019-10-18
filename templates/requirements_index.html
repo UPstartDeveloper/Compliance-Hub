@@ -20,6 +20,7 @@
     {% for requirement in requirements %}
     <li>
         <h3>{{ requirement.name }}</h3>
+        <h4>{{ requirement.description }}</h4>
         <!--LINK to see one REQUIREMENT-->
         <form action="/submissions/{{ requirement._id }}">
             <input type="submit" value="More Options"/>

@@ -48,7 +48,7 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 # remove unneccesary requirements
-requirements.delete_many({})
+requirements.remove()
 # adds requirements to DB
 requirements.insert_many(list_of_requirements)
 

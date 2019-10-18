@@ -48,7 +48,8 @@ list_of_requirements = [
 ]
 
 documents.delete_many({})
-requirements.insert_many(list_of_requirements)
+requirements.delete_many({})
+requirements.insert(list_of_requirements)
 
 @app.route('/')
 def show_requirements():

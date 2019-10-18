@@ -14,12 +14,12 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
+documents.delete_many({})
+
 
 @app.route('/')
 def show_requirements():
     """Show user all the requireements that need to be completed."""
-    requirements.update_one({"name": "Regulation D"},
-                         {"$set": {"description": "Make sure that the self-driving AI values human life!"}})
     return render_template("requirements_index.html",
                            requirements=requirements.find())
 

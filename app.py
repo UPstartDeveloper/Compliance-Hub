@@ -51,8 +51,8 @@ list_of_requirements = [
 # requirements.delete_many({})
 # adds requirements to DB
 # requirements.insert_many(list_of_requirements)
-requirements.delete_many({})
-requirements.insert(list_of_requirements)
+# requirements.delete_many({})
+# requirements.insert(list_of_requirements)
 
 
 @app.route('/')

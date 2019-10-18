@@ -47,7 +47,8 @@ list_of_requirements = [
      "documents": list(),
      "num_submitted": 0}
 ]
-# requiurements.remove()
+
+requiurements.remove()
 # adds requirements to DB
 requirements.insert_one(list_of_requirements[0])
 requirements.insert_one(list_of_requirements[1])

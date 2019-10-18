@@ -31,15 +31,6 @@
         </form><br>
     <!-- EDIT documents for this requirement -->
         <form action="/submissions/{{ requirement._id }}/edit">
-            {# <!--<!--Selects the document this document is replacing
-            <p>Want to change a form? Select the name of the document you are replacing:</p>
-            <select name="document">
-                {% for document in documents %}
-                    {% if document.requirement == requirement.name %}
-                        <option value="{{ document._id }}">{{ document.file_name }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select><br><br>-->#}
             <input type="submit" value="Replace Forms">
         </form><br>
     <!-- DESTORY all DOCUMENTS associated with this Requiremnt -->

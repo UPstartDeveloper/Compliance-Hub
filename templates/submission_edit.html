@@ -15,16 +15,8 @@
                 {% endif %}
             {% endfor %}
         </select><br><br>
-        <input type="submit" value="Replace Forms">
-    </form><br>
-{#<!--
-<form action="/submissions/{{ document.id }}/upload">
-    <!-- form field implemented using this tutorial: https://www.tutorialspoint.com/flask/flask_file_uploading.htm
-    Select files:
-    <input type="file" name="userFile" multiple/><br><br>
-
-    <input type="submit" value="Re-upload My Files"/>
-</form>-->#}
+        <input type="submit" value="Replace Forms"><br><br>
+    </form>
 
 <!-- Link back to REQUIREMENTS_INDEX (show all)-->
 <form action="{{ url_for('show_requirements') }}">

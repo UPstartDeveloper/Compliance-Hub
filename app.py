@@ -73,14 +73,6 @@ def form_new():
     """Add the uploaded file to the database."""
 
     if 'userFile' in request.files:
-        '''
-        file = request.files['userFile']
-        file_name = secure_filename(file.filename)
-        doc = FormDocument()
-        doc.filename = file_name
-        return "This works so far"
-
-        '''
         # Make a new document JSON from form data
         file = request.files['userFile']
         file.save(file)
@@ -94,11 +86,12 @@ def form_new():
         doc_id = documents.insert_one(new_doc).inserted_id
         # add the id of the new document to the
         # list of its corresponding requirement, and increment num_submitted
-        requirement = requirements.find_one({"name": new_doc["requirement"]})
+        requirement = requirements.find_one({"name":
+                                            new_doc.get("requirement")})
         list_of_docs = requirement["documents"]
         list_of_docs.append(doc_id)
         new_num = requirement["num_submitted"] + 1
-        requirements.update_one({"name": new_doc["requirement"]},
+        requirements.update_one({"name": new_doc.get("requirement")},
                                 {"$set": {
                                  "documents": list_of_docs,
                                  "num_submitted": new_num}})
@@ -151,7 +144,7 @@ def document_edit(document_id):
     file.save(file)
     updated_doc = {
         "file_name": file.filename,
-        "requirement": document["requirement"]
+        "requirement": document.get("requirement")
     }
 
     # update the documents database

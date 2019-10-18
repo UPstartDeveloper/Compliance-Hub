@@ -47,9 +47,12 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 
-documents.delete_many({})
 requirements.delete_many({})
-requirements.insert(list_of_requirements)
+requirements.insert_one(list_of_requirements[0])
+requirements.insert_one(list_of_requirements[1])
+requirements.insert_one(list_of_requirements[2])
+requirements.insert_one(list_of_requirements[3])
+
 
 @app.route('/')
 def show_requirements():

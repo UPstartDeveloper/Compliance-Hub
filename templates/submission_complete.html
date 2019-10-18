@@ -3,6 +3,11 @@
 
 {% block content %}
 
-    <p>This is where your ZIP folder will be.</p>
+    <p>This is where your ZIP folder will be.</p><br>
+
+    <!-- Link back to REQUIREMENTS_INDEX (show all)-->
+        <form action="{{ url_for('show_requirements') }}">
+            <input type="submit" value="Back to Home"/>
+        </form>
 
 {% endblock %}

@@ -170,18 +170,35 @@ def document_edit(document_id):
                             requirement_id=requirement.get("_id")))
 
 
-@app.route('/submissions/<requirement_id>/delete_all', methods=["POST"])
+@app.route('/submissions/<requirement_id>/delete', methods=["POST"])
 def submissions_delete(requirement_id):
-    """Delete all documents under a requirement."""
+    """Show delete form for a requirement's related documents."""
     requirement = requirements.find_one({"_id": ObjectId(requirement_id)})
-    documents_to_delete = documents.find({
-                                    "requirement": requirement.get("name")})
-    for document in documents_to_delete:
+    related_docs = documents.find({"requirement": requirement.get("name")})
+
+    # render form
+    return render_template("submissions_delete.html",
+                           documents=related_docs)
+
+
+@app.route('/submissions/delete_docs', methods=["POST"])
+def delete_submissions():
+    """Remove documents marked by user."""
+    doc_ids_to_remove = request.form.getlist("document")  # list of str
+    # get a list of the documents to remove from the ids
+    docs_to_delete = list()
+    for id in doc_ids_to_remove:
+        doc = documents.find_one({"_id": ObjectId(id)})
+        docs_to_delete.append(doc)
+    # find the requirement related to these documents
+    doc = docs_to_delete[0]
+    requirement = requirements.find_one({"name": doc.get("requirement")})
+    # delete the documents one-by-one
+    for document in docs_to_delete:
         documents.delete_one(document)
 
-    # redirect back to requirement's own page
     return redirect(url_for("requirement_show",
-                            requirement_id=requirement_id))
+                            requirement_id=requirement.get('_id')))
 
 
 @app.route('/submission/download_zip')

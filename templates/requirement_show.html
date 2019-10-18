@@ -43,8 +43,8 @@
             <input type="submit" value="Replace Forms">
         </form><br>
     <!-- DESTORY all DOCUMENTS associated with this Requiremnt -->
-    <form action="/submissions/{{ requirement._id }}/delete_all" method="POST">
-        <input type="submit" value="Delete All Forms">
+    <form action="/submissions/{{ requirement._id }}/delete" method="POST">
+        <input type="submit" value="Delete Forms">
     </form><br>
     <!-- Link back to REQUIREMENTS_INDEX (show all)-->
         <form action="{{ url_for('show_requirements') }}">

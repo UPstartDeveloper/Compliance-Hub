@@ -49,6 +49,7 @@ list_of_requirements = [
 ]
 
 requirements.insert(list_of_requirements)  # adds requirements to DB
+requirements.remove()
 
 
 @app.route('/')

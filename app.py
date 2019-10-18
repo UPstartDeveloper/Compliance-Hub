@@ -48,7 +48,7 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 
-requiurements.delete()  # remove unneccesary requirements
+requiurements.remove()  # remove unneccesary requirements
 
 # adds requirements to DB
 requirements.insert_one(list_of_requirements[0])

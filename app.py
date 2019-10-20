@@ -134,7 +134,7 @@ def submissions_delete(requirement_id):
 def delete_submissions():
     """Remove documents marked by user."""
     doc_ids_to_remove = request.form.getlist("document")  # list of str
-    # get a list of the documents to remove from the ids
+    # get a list of the documents to remove from the ids list
     docs_to_delete = list()
     for id in doc_ids_to_remove:
         doc = documents.find_one({"_id": ObjectId(id)})
@@ -145,14 +145,17 @@ def delete_submissions():
     # delete the documents one-by-one, in both documents db
     # and under the related requirement
     for document in docs_to_delete:
-        documents.delete_one(document)
-        reduced_docs = requirement.get("documents").remove(document.get("_id"))
-        # adjust appropiate fields under related requirement
-        new_num = len(requirement["documents"])
-        requirements.update_one(requirement,
-                                {"$set":
-                                 {"num_submitted": new_num,
-                                  "documents": reduced_docs}})
+        reduced_docs = requirement.get("documents").remove(document["_id"])
+        documents.delete_one({"_id": ObjectId(document["_id"])})
+    # adjust appropiate fields under related requirement
+    # if the last document related to a requirement was deleted
+    replacement = list()
+    if not len(requirement.get("documents")) == 0:
+        replacement = requirement.get("documents")
+    requirements.update_one({"name": requirement["name"]},
+                            {"$set":
+                             {"num_submitted": len(requirement["documents"]),
+                              "documents": replacement}})
 
     return redirect(url_for("requirement_show",
                             requirement_id=requirement.get('_id')))

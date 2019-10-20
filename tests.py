@@ -58,6 +58,15 @@ class ComplianceTests(TestCase):
         self.assertEqual(result.status, "200 OK")
         self.assertIn(b"Regulation E", result.data)
 
+    @mock.patch("pymongo.collection.Collection.find_one")
+    def test_requirement_edit(self, mock_find):
+        """Test showing the edit form for the documents under a requirement."""
+        mock_find.return_value = sample_req
+
+        result = self.client.get(f"/submissions/{sample_requirement_id}/edit")
+        self.assertEqual(result.status, "200 OK")
+        self.assertIn(b"Change Your Files Here!", result.data)
+
     def test_get_zip(self):
         """Test the get zip folder route."""
         result = self.client.get("/submission/download_zip")

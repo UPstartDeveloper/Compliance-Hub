@@ -9,6 +9,9 @@ https://tinyurl.com/y3kblnmy
 class ComplianceTests(TestCase):
     """Flask tests"""
     def setUp(self):
+        """ Create a test client to run each route test through.
+            Runs automatically before every test in this file.
+        """
         # Get the Flask test client
         self.client = app.test_client()
 

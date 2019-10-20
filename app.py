@@ -14,11 +14,6 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
-documents.delete_many({})
-requirements.update_one({"name": "Regulation A"},
-                        {"$set": {"documents": [],
-                                  "num_submitted": 0}})
-
 
 @app.route('/')
 def show_requirements():

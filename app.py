@@ -14,10 +14,10 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
+documents.delete_many({})
 requirements.update_one({"name": "Regulation A"},
                         {"$set": {"documents": [],
-                         "num_submitted": 0}})
-documents.delete_many({})
+                                  "num_submitted": 0}})
 
 
 @app.route('/')
@@ -41,7 +41,6 @@ def form_new():
     if 'userFile' in request.files:
         # Make a new document JSON from form data
         file = request.files['userFile']
-        # file.save(file)
 
         new_doc = {
             "file_name": file.filename,
@@ -107,7 +106,6 @@ def document_edit(document_id):
     document = documents.find_one({"_id": ObjectId(document_id)})
     # create an updated document
     file = request.files["userFile"]
-    # file.save(file)
     updated_doc = {
         "file_name": file.filename,
         "requirement": document.get("requirement")

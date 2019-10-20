@@ -48,9 +48,9 @@ list_of_requirements = [
      "num_submitted": 0}
 ]
 
+documents.delete_many({})
 requirements.delete_many({})
 requirements.insert_one(list_of_requirements)  # adds requirements to DB
-documents.remove()
 
 
 @app.route('/')

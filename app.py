@@ -14,6 +14,11 @@ db = client.get_default_database()
 documents = db.documents
 requirements = db.requirements
 
+requirements.update_one({"name": "Regulation A"},
+                        {"$set": {"documents": [],
+                         "num_submitted": 0}})
+documents.delete_many({})
+
 
 @app.route('/')
 def show_requirements():
@@ -36,7 +41,7 @@ def form_new():
     if 'userFile' in request.files:
         # Make a new document JSON from form data
         file = request.files['userFile']
-        file.save(file)
+        # file.save(file)
 
         new_doc = {
             "file_name": file.filename,
@@ -51,11 +56,11 @@ def form_new():
                                             new_doc.get("requirement")})
         list_of_docs = requirement["documents"]
         list_of_docs.append(doc_id)
-        new_num = requirement["num_submitted"] + 1
+        # new_num = requirement["num_submitted"] + 1
         requirements.update_one({"name": new_doc.get("requirement")},
                                 {"$set": {
                                  "documents": list_of_docs,
-                                 "num_submitted": new_num}})
+                                 "num_submitted": len(list_of_docs)}})
         # redirect to the requirement page for which document was submitted
     return redirect(url_for('requirement_show',
                     requirement_id=requirement.get('_id')))
@@ -102,7 +107,7 @@ def document_edit(document_id):
     document = documents.find_one({"_id": ObjectId(document_id)})
     # create an updated document
     file = request.files["userFile"]
-    file.save(file)
+    # file.save(file)
     updated_doc = {
         "file_name": file.filename,
         "requirement": document.get("requirement")
@@ -114,7 +119,6 @@ def document_edit(document_id):
         {"$set": {"file_name": file.filename}})
 
     # use the document to find the related requirement to redirect back to
-    document = documents.find_one({"_id": ObjectId(document_id)})
     requirement = requirements.find_one({"name": document.get("requirement")})
 
     # redirect to the requirement's own show page
@@ -145,14 +149,17 @@ def delete_submissions():
     # find the requirement related to these documents
     doc = docs_to_delete[0]
     requirement = requirements.find_one({"name": doc.get("requirement")})
-    # delete the documents one-by-one
+    # delete the documents one-by-one, in both documents db
+    # and under the related requirement
     for document in docs_to_delete:
         documents.delete_one(document)
-        # adjust number of num_submitted under related requirement
-        new_num = requirement["num_submitted"] - 1
+        reduced_docs = requirement.get("documents").remove(document.get("_id"))
+        # adjust appropiate fields under related requirement
+        new_num = len(requirement["documents"])
         requirements.update_one(requirement,
                                 {"$set":
-                                 {"num_submitted": new_num}})
+                                 {"num_submitted": new_num,
+                                  "documents": reduced_docs}})
 
     return redirect(url_for("requirement_show",
                             requirement_id=requirement.get('_id')))

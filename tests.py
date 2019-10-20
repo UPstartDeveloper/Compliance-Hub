@@ -18,6 +18,12 @@ class ComplianceTests(TestCase):
         # Show Flask errors that happen during tests
         app.config["TESTING"] = True
 
+    def test_index(self):
+        """Tests the requirements homepage."""
+        result = self.client.get("/")
+        self.assertEqual(result.status, "200 OK")
+        self.assertIn(b"Welcome", result.data)
+
 
 if __name__ == "__main__":
     unittest_main()

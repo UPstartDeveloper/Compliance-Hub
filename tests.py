@@ -18,13 +18,19 @@ class ComplianceTests(TestCase):
         # Show Flask errors that happen during tests
         app.config["TESTING"] = True
 
-    def test_index(self):
+    def test_show_requirements(self):
         """Tests the requirements homepage."""
         result = self.client.get("/")
         self.assertEqual(result.status, "200 OK")
         self.assertIn(b"Welcome", result.data)
 
-    def test_zip(self):
+    def test_form_upload(self):
+        """Test rendering of the upload form page."""
+        result = self.client.get("/submissions/form_tracker")
+        self.assertEqual(result.status, "200 OK")
+        self.assertIn(b"Upload Your Files", result.data)
+
+    def test_get_zip(self):
         """Test the get zip folder route."""
         result = self.client.get("/submission/download_zip")
         self.assertIn(b"ZIP folder", result.data)

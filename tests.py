@@ -1,9 +1,28 @@
-from unittest import TestCase, main as unittest_main
+from unittest import TestCase, main as unittest_main, mock
+from bson.objectid import ObjectId
 from app import app
 '''
 test class created with inspiration from this tutorial:
 https://tinyurl.com/y3kblnmy
 '''
+
+sample_requirement_id = ObjectId("5d55cffc4a3d4031f42827a3")
+sample_document_id = ObjectId("5d55cffc4a3d4031f42827a4")
+sample_req = {
+    "name": "Regulation E",
+    "description": "You must include child safety locks.",
+    "image": "https://i.ytimg.com/vi/lroO4oBT-a8/maxresdefault.jpg",
+    "num_required": 2,
+    "documents": [sample_document_id],
+    "num_submitted": 1
+}
+sample_doc = {
+    "name": "fake_file.txt",
+    "requirement": sample_req["name"]
+}
+sample_file_upload = {
+
+}
 
 
 class ComplianceTests(TestCase):
@@ -29,6 +48,15 @@ class ComplianceTests(TestCase):
         result = self.client.get("/submissions/form_tracker")
         self.assertEqual(result.status, "200 OK")
         self.assertIn(b"Upload Your Files", result.data)
+
+    @mock.patch("pymongo.collection.Collection.find_one")
+    def test_requirement_show(self, mock_find):
+        """Test route to show one requirement."""
+        mock_find.return_value = sample_req
+
+        result = self.client.get(f"/submissions/{sample_requirement_id}")
+        self.assertEqual(result.status, "200 OK")
+        self.assertIn(b"Regulation E", result.data)
 
     def test_get_zip(self):
         """Test the get zip folder route."""

@@ -24,6 +24,11 @@ class ComplianceTests(TestCase):
         self.assertEqual(result.status, "200 OK")
         self.assertIn(b"Welcome", result.data)
 
+    def test_zip(self):
+        """Test the get zip folder route."""
+        result = self.client.get("/submission/download_zip")
+        self.assertIn(b"ZIP folder", result.data)
+
 
 if __name__ == "__main__":
     unittest_main()

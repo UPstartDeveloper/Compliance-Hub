@@ -50,7 +50,7 @@ list_of_requirements = [
 
 documents.delete_many({})
 requirements.delete_many({})
-requirements.insert_one(list_of_requirements)  # adds requirements to DB
+requirements.insert(list_of_requirements)  # adds requirements to DB
 
 
 @app.route('/')

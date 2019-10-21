@@ -1,4 +1,4 @@
-#Compliance Hub
+# Compliance Hub
 
 Compliance Hub is the new way to do compliance. As we speak, engineers around the
 world who build the tools we use to run daily life - the cars that get around, the
@@ -8,7 +8,7 @@ Engineers today arguably have to deal with more regulations than ever before whe
 designing a new product. These products keep us safe, but what do we when the tool
 we use to fill out them out - paper - slows innovation down to a complete stop?
 
-##Motivation
+## Motivation
 
 Compliance Hub is a tool borne of the internet. What if the most innovative car
 design, or the medicine most effective at saving lives, is the one that never
@@ -36,7 +36,7 @@ hope contributions to this project will help me with) can use to track the numbe
 The internet. A faster, more cost-effective, and responsive way to track government
 compliance!
 
-##Code Structure
+## Code Structure
 This project was made using Python, HTML, and CSS. It uses Flask as a framework for
 the backend web server, and Flask-PyMongo is used to drive a NoSql database for the
 regulations needed for the car, and the documents the user submits which are related to
@@ -52,7 +52,7 @@ The controllers for the app are in the app.py file. The templates are made using
 and are located in the templates folder. The styling is done using CSS, which is found in
 the css folder, which in turn is found in the static folder as per Flask conventions.
 
-##Design
+## Design
 User starts by viewing a Requirement, listed on the root directory of the site.
 Later on, user can add more documents (also called "forms", or "submissions" in the code)
 right from the root directory, or from the page displaying each individual requirement.
@@ -63,7 +63,7 @@ previously uploaded.
 When the user has the required number of forms submitted, the website will inform them
 they have fulfilled the corresponding requirement.
 
-##Future Improvements
+## Future Improvements
 Currently, the system for passing a requirement is simply by number. I hope to make
 it more comprehensive in the future, such as by using computer vision to actually scan the
 data in the files, or even include a web form so the user never has to use paper throughout

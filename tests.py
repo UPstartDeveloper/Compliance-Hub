@@ -20,8 +20,10 @@ sample_doc = {
     "name": "fake_file.txt",
     "requirement": sample_req["name"]
 }
-sample_file_upload = {
 
+sample_file_upload = {
+    # should be a MultiDict object with FileStorage values,
+    # am not sure how to implement this yet
 }
 
 
@@ -48,6 +50,19 @@ class ComplianceTests(TestCase):
         result = self.client.get("/submissions/form_tracker")
         self.assertEqual(result.status, "200 OK")
         self.assertIn(b"Upload Your Files", result.data)
+
+    @mock.patch("pymongo.collection.Collection.insert_one")
+    def test_form_new(self, mock_insert):
+        """Test inserting a document into MongoDB and related field in another
+           Collection.
+        """
+        result = self.client.post("/submission/form_tracker/upload",
+                                  data=sample_file_upload)
+
+        # For now, redirects to error page because I am unsure how to format
+        # sample_file_upload
+        self.assertEqual(result.status, "200 OK")
+        # mock_insert.assert_called_with(sample_doc)
 
     @mock.patch("pymongo.collection.Collection.find_one")
     def test_requirement_show(self, mock_find):

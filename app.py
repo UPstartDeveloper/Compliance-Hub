@@ -15,9 +15,24 @@ documents = db.documents
 requirements = db.requirements
 
 
-@app.route('/')
+@app.route("/")
+def select_project():
+    """Show user options for what types of projects
+       they can use this tool with.
+    """
+    return render_template("choose_project.html")
+
+
+@app.route("/select_project")
+def go_to_project():
+    """Redirect user to the tracker based on their selection."""
+    if request.args.get("project_type") == "Car":
+        return redirect(url_for("show_requirements"))
+
+
+@app.route('/car')
 def show_requirements():
-    """Show user all the requireements that need to be completed."""
+    """Show user all the requirements that need to be completed for a car."""
     return render_template("requirements_index.html",
                            requirements=requirements.find())
 
@@ -56,8 +71,11 @@ def form_new():
                                  "documents": list_of_docs,
                                  "num_submitted": len(list_of_docs)}})
         # redirect to the requirement page for which document was submitted
-    return redirect(url_for('requirement_show',
-                    requirement_id=requirement.get('_id')))
+        return redirect(url_for('requirement_show',
+                                requirement_id=requirement.get('_id')))
+    else:
+        # if no file uploaded, redirect to the upload_error page
+        return render_template("upload_error.html")
 
 
 @app.route('/submissions/<requirement_id>')

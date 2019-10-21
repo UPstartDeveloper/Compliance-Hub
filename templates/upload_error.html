@@ -1,0 +1,19 @@
+<!-- templates/upload_error.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Oh, Snap!</h1>
+
+<p> It looks like you did not upload a file to the form.<br>
+    Please go back and try again.
+    </p>
+
+<img alt="We apologize for the inconvenience." src="http://1.bp.blogspot.com/-qe3gmAKk2E4/UNikvoVpnXI/AAAAAAAAFTQ/PVOd_pJrKEA/s1600/i-am-sorry+(1).jpg"/>
+
+<!-- Link back to REQUIREMENTS_INDEX (show all)-->
+    <form action="{{ url_for('show_requirements') }}">
+        <input type="submit" value="Back to Home"/>
+    </form><br><br>
+
+{% endblock %}

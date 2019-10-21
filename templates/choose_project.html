@@ -1,0 +1,18 @@
+<!-- templates/choose_project.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1> Welcome to the Compliance Hub!</h1>
+    <div class="choose_dropdown">
+        <!-- Form to direct user to the regulations they need to track on their specific project. -->
+        <form action="/select_project" method="GET">
+            <h3>What are you building today? Select from the options below the type of project,<br>
+                and we will help you track the types of regulations associated with it.</h3>
+            <select name="project_type">
+                <option value="Car">Automobile</option>
+            </select><br><br>
+            <input type="submit" value="Let's Start Building!"/>
+        </form>
+
+{% endblock %}

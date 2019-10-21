@@ -18,3 +18,12 @@ img {
 .show-page-buttons {
     display: inline;
 }
+
+/* This is supposed to style the dropdown in the center of the window,
+    it is currently not working. */
+#choose_dropdown {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+}

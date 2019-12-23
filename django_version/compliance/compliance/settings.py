@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
+import dj_database_url
+import django_heroku
 
 load_dotenv()
 
@@ -28,7 +30,10 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'compliance-hub.herokuapp.com']
+ALLOWED_HOSTS = [
+    'localhost',
+    'compliance-hub.herokuapp.com'
+]
 
 
 # Application definition
@@ -78,11 +83,14 @@ WSGI_APPLICATION = 'compliance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'compliance',
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': 'postgres',
+        'PASSWORD': str(os.getenv('DATABASE_PASSWORD')),
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -123,3 +131,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# provision PostgreSQL for deployment
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
+# more on deployment
+django_heroku.settings(locals())

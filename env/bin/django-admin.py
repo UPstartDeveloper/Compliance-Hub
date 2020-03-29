@@ -1,4 +1,4 @@
-#!/Users/zainraza/Documents/dev/miscell/Open_Source/Compliance-Hub/env/bin/python3
+#!/Users/zainraza/Downloads/dev/miscell/Open_Source/Intensives/Compliance-Hub/env/bin/python
 from django.core import management
 
 if __name__ == "__main__":
